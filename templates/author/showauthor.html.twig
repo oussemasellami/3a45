@@ -1,0 +1,38 @@
+Nombre d'auteur: {{ tabauthor | length}}
+
+<br>
+
+{% if tabauthor is empty %}
+<p> is empty</p>
+{% else %}
+<table border="3">
+<tr>
+    <td>id</td>
+    <td>image</td>
+    <td>username</td>
+    <td>email</td>
+    <td>nbr-book</td>
+    <td>Action</td>
+</tr>
+
+{% set T=0 %}
+{% for a in tabauthor %}
+<tr>
+    <td> {{a.id}}        </td>
+    <td>  <img src="{{asset(a.picture)}}" width="100" height="100" alt="img1"></td>
+    <td>{{a.username |upper}}</td>
+    <td>{{a.email}}</td>
+    <td>{{a.nb_books}}</td>
+    <td>
+        <a href="{{path('app_author')}}">Redirect to details</a></td>
+      <td>  <a href="{{path('app_authordetails',{'id':a.id})}}">Redirect with param</a>
+    </td>
+</tr>
+{% set T=T+a.nb_books %}
+
+  {% endfor %}
+
+</table>
+
+{% endif %}
+ {# {{T}} #}
