@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Author;
+use App\Form\AuthorType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\AuthorRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -46,10 +48,45 @@ class AuthorsController extends AbstractController
     }
 
     #[Route('/addformauthors', name: 'app_addformauthors')]
-    public function addformauthors(): Response
+    public function addformauthors(ManagerRegistry $manager,Request $req): Response
     {
+        $em = $manager->getManager();
+        $authors = new Author();
+        $form = $this->createForm(AuthorType::class, $authors);
+$form->handleRequest($req);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($authors);
+            $em->flush();
+        }
         return $this->render('authors/addformauthors.html.twig', [
-            'controller_name' => 'AuthorsController',
+            'formadd' => $form->createView(),
         ]);
+    }
+
+    #[Route('/updateformauthors/{id}', name: 'app_addformauthors')]
+    public function updateformauthors($id,ManagerRegistry $manager,Request $req,AuthorRepository $rep): Response
+    {
+        $em = $manager->getManager();
+        $authors = $rep->find($id);
+        $form = $this->createForm(AuthorType::class, $authors);
+$form->handleRequest($req);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($authors);
+            $em->flush();
+        }
+        return $this->render('authors/addformauthors.html.twig', [
+            'formadd' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/deleteformauthors/{id}', name: 'app_deleteformauthors')]
+    public function deleteformauthors($id,ManagerRegistry $manager,Request $req,AuthorRepository $rep): Response
+    {
+        $em = $manager->getManager();
+        $authors = $rep->find($id);
+            $em->remove($authors);
+            $em->flush();
+        
+        return $this->redirect('/showauthors');
     }
 }

@@ -9,6 +9,8 @@
         <td>{{a.id}}</td>
         <td>{{a.username}}</td>
         <td>{{a.email}}</td>
+        <td><a href="{{path('app_addformauthors',{'id':a.id})}}">update</a></td>
+        <td><a href="{{path('app_deleteformauthors',{'id':a.id})}}">delete</a></td>
     </tr>
     {% endfor %}
 </table>
