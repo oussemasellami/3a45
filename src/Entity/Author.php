@@ -19,8 +19,6 @@ class Author
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column]
-    private ?float $quantite = null;
 
     public function getId(): ?int
     {
@@ -47,18 +45,6 @@ class Author
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getQuantite(): ?float
-    {
-        return $this->quantite;
-    }
-
-    public function setQuantite(float $quantite): static
-    {
-        $this->quantite = $quantite;
 
         return $this;
     }
