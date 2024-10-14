@@ -1,0 +1,22 @@
+
+<td><a href="{{path('app_addformbook')}}">add</a></td>
+
+<table border="3">
+    <tr>
+        <td>id</td>
+        <td>title</td>
+        <td>pubdate</td>
+        <td>status</td>
+    </tr>
+
+    {% for b in tabbook %}
+    <tr>
+        <td>{{b.id}}</td>
+        <td>{{b.title}}</td>
+        <td>{{b.publicationdate |date}}</td>
+        <td>{{b.enabled ? 'yes' : 'no'}}</td>
+        <td>{{b.author.username}}</td>
+        <td><a href="{{path('app_deletebook',{'id':b.id})}}">delete</a></td>
+    </tr>
+{% endfor %}
+</table>

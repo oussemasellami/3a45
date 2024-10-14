@@ -40,4 +40,21 @@ class AuthorRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+
+
+
+
+    /**
+     * @return Author[] Returns an array of Author objects
+     */
+    public function findorderby(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.username', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

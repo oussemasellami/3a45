@@ -25,8 +25,8 @@ class AuthorsController extends AbstractController
     #[Route('/showauthors', name: 'app_showauthors')]
     public function showauthors(AuthorRepository $authorrepo): Response
     {
-
         $a = $authorrepo->findAll();
+       // $a = $authorrepo->findorderby();
 
         return $this->render('authors/showauthors.html.twig', [
             'tabauthor' => $a,
@@ -48,12 +48,12 @@ class AuthorsController extends AbstractController
     }
 
     #[Route('/addformauthors', name: 'app_addformauthors')]
-    public function addformauthors(ManagerRegistry $manager,Request $req): Response
+    public function addformauthors(ManagerRegistry $manager, Request $req): Response
     {
         $em = $manager->getManager();
         $authors = new Author();
         $form = $this->createForm(AuthorType::class, $authors);
-$form->handleRequest($req);
+        $form->handleRequest($req);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($authors);
             $em->flush();
@@ -64,12 +64,12 @@ $form->handleRequest($req);
     }
 
     #[Route('/updateformauthors/{id}', name: 'app_addformauthors')]
-    public function updateformauthors($id,ManagerRegistry $manager,Request $req,AuthorRepository $rep): Response
+    public function updateformauthors($id, ManagerRegistry $manager, Request $req, AuthorRepository $rep): Response
     {
         $em = $manager->getManager();
         $authors = $rep->find($id);
         $form = $this->createForm(AuthorType::class, $authors);
-$form->handleRequest($req);
+        $form->handleRequest($req);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($authors);
             $em->flush();
@@ -80,13 +80,13 @@ $form->handleRequest($req);
     }
 
     #[Route('/deleteformauthors/{id}', name: 'app_deleteformauthors')]
-    public function deleteformauthors($id,ManagerRegistry $manager,Request $req,AuthorRepository $rep): Response
+    public function deleteformauthors($id, ManagerRegistry $manager, Request $req, AuthorRepository $rep): Response
     {
         $em = $manager->getManager();
         $authors = $rep->find($id);
-            $em->remove($authors);
-            $em->flush();
-        
+        $em->remove($authors);
+        $em->flush();
+
         return $this->redirect('/showauthors');
     }
 }
